@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>やること一覧</title>
     <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/theme.js" defer></script>
 </head>
 <body>
     <main class="container">
-        <h1 class="page-title">やること一覧</h1>
+        <div class="page-heading"><h1 class="page-title">やること一覧</h1><button class="theme-toggle" type="button" data-theme-toggle aria-label="画面テーマを切り替える"><svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path></svg><svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 15.5A8.5 8.5 0 0 1 8.5 3.5 8.5 8.5 0 1 0 20.5 15.5Z"></path></svg></button></div>
         <p class="flash" th:if="${message != null}" th:text="${message}"></p>
         <div class="search-bar">
             <form th:action="@{/todos}" method="get">

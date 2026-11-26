@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="|${year}年${month}月のカレンダー|">カレンダー</title>
     <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/theme.js" defer></script>
 </head>
 <body>
     <main class="container calendar-container">
-        <h1 class="page-title" th:text="|${year}年${month}月|">年月</h1>
+        <div class="page-heading"><h1 class="page-title" th:text="|${year}年${month}月|">年月</h1><button class="theme-toggle" type="button" data-theme-toggle aria-label="画面テーマを切り替える"><svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path></svg><svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 15.5A8.5 8.5 0 0 1 8.5 3.5 8.5 8.5 0 1 0 20.5 15.5Z"></path></svg></button></div>
         <nav class="calendar-navigation" aria-label="月の移動">
             <div class="calendar-navigation-group">
             <a class="btn sub" th:href="@{/calendar(year=${previousMonth.year}, month=${previousMonth.monthValue})}">前月</a>
@@ -63,6 +64,12 @@
                 const todoName = document.createElement("div");
                 const editLink = document.createElement("a");
                 editLink.href = `/todos/${todo.id}/edit`;
+                const dueDate = new Date(`${todo.dueDate}T00:00:00`);
+                const isOverdue = dueDate < today && !todo.completed;
+                if (isOverdue) {
+                    editLink.classList.add("calendar-todo-overdue");
+                    editLink.title = "期限超過";
+                }
                 const categoryIcons = {
                     "旅行": {symbol: "✈", style: "travel"},
                     "グルメ": {symbol: "🍴", style: "gourmet"},
@@ -76,15 +83,8 @@
                 categoryIcon.setAttribute("aria-hidden", "true");
                 categoryIcon.textContent = icon.symbol;
                 editLink.setAttribute("aria-label", `${todo.category}：${todo.title}`);
-                const dueDate = new Date(`${todo.dueDate}T00:00:00`);
-                if (dueDate < today && !todo.completed) {
-                    const overdueMarker = document.createElement("span");
-                    overdueMarker.className = "overdue-marker";
-                    overdueMarker.textContent = "●";
-                    overdueMarker.title = "期限超過";
-                    overdueMarker.setAttribute("aria-label", "期限超過");
+                if (isOverdue) {
                     editLink.setAttribute("aria-label", `期限超過、${todo.category}：${todo.title}`);
-                    editLink.appendChild(overdueMarker);
                 }
                 editLink.appendChild(categoryIcon);
                 const titleText = document.createElement("span");
@@ -136,12 +136,12 @@
             const dayOfWeek = new Date(`${cellDate}T00:00:00`).getDay();
 
             if (holidays[cellDate]) {
-                cell.style.backgroundColor = "#fef3c7";
+                cell.dataset.dayType = "holiday";
                 cell.title = holidays[cellDate];
             } else if (dayOfWeek === 0) {
-                cell.style.backgroundColor = "#fee2e2";
+                cell.dataset.dayType = "sunday";
             } else if (dayOfWeek === 6) {
-                cell.style.backgroundColor = "#dbeafe";
+                cell.dataset.dayType = "saturday";
             }
         }
     }
