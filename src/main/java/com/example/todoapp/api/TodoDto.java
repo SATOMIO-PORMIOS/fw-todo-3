@@ -11,6 +11,8 @@ public class TodoDto {
     private String category;
     private Integer priority;
     private LocalDate dueDate;
+    private Long budgetAmount;
+    private Long actualAmount;
     private Boolean completed;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -23,6 +25,8 @@ public class TodoDto {
         dto.category = todo.getCategory();
         dto.priority = todo.getPriority();
         dto.dueDate = todo.getDueDate();
+        dto.budgetAmount = todo.getBudgetAmount();
+        dto.actualAmount = todo.getActualAmount();
         dto.completed = todo.getCompleted();
         dto.createdAt = todo.getCreatedAt();
         dto.updatedAt = todo.getUpdatedAt();
@@ -35,6 +39,8 @@ public class TodoDto {
     public String getCategory() { return category; }
     public Integer getPriority() { return priority; }
     public LocalDate getDueDate() { return dueDate; }
+    public Long getBudgetAmount() { return budgetAmount; }
+    public Long getActualAmount() { return actualAmount; }
     public Boolean getCompleted() { return completed; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }

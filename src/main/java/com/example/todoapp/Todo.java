@@ -6,6 +6,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
 @Data
@@ -22,6 +23,10 @@ public class Todo {
     private Integer priority;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dueDate;
+    @PositiveOrZero(message = "予算額は0円以上で入力してください")
+    private Long budgetAmount;
+    @PositiveOrZero(message = "実際の金額は0円以上で入力してください")
+    private Long actualAmount;
     private Boolean completed;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

@@ -52,16 +52,21 @@ public class TodoTools {
             @McpToolParam(description = "詳細", required = false) String detail,
             @McpToolParam(description = "ジャンル（旅行・グルメ・買い物・体験・学習）", required = true) String category,
             @McpToolParam(description = "優先度", required = true) Integer priority,
-            @McpToolParam(description = "期限（yyyy-MM-dd）", required = false) String dueDate) {
+            @McpToolParam(description = "期限（yyyy-MM-dd）", required = false) String dueDate,
+            @McpToolParam(description = "予算額（円、0以上の整数）", required = false) Long budgetAmount,
+            @McpToolParam(description = "実際の金額（円、0以上の整数）", required = false) Long actualAmount) {
         if (!isValidCategory(category)) {
             throw new IllegalArgumentException("ジャンルは指定された5種類から選んでください。");
         }
+        validateAmounts(budgetAmount, actualAmount);
         Todo todo = new Todo();
         todo.setTitle(title);
         todo.setDetail(detail);
         todo.setCategory(category);
         todo.setPriority(priority);
         todo.setDueDate(dueDate == null ? null : LocalDate.parse(dueDate));
+        todo.setBudgetAmount(budgetAmount);
+        todo.setActualAmount(actualAmount);
         todo.setCompleted(false);
         todoService.create(todo);
         return TodoDto.from(todo);
@@ -74,17 +79,22 @@ public class TodoTools {
             @McpToolParam(description = "新しい詳細", required = false) String detail,
             @McpToolParam(description = "新しいジャンル（旅行・グルメ・買い物・体験・学習）", required = false) String category,
             @McpToolParam(description = "新しい優先度", required = false) Integer priority,
-            @McpToolParam(description = "新しい期限（yyyy-MM-dd）", required = false) String dueDate) {
+            @McpToolParam(description = "新しい期限（yyyy-MM-dd）", required = false) String dueDate,
+            @McpToolParam(description = "新しい予算額（円、0以上の整数）", required = false) Long budgetAmount,
+            @McpToolParam(description = "新しい実際の金額（円、0以上の整数）", required = false) Long actualAmount) {
         Todo todo = todoService.findById(id);
         if (todo == null) return null;
         if (category != null && !isValidCategory(category)) {
             throw new IllegalArgumentException("ジャンルは指定された5種類から選んでください。");
         }
+        validateAmounts(budgetAmount, actualAmount);
         if (title != null) todo.setTitle(title);
         if (detail != null) todo.setDetail(detail);
         if (category != null) todo.setCategory(category);
         if (priority != null) todo.setPriority(priority);
         if (dueDate != null) todo.setDueDate(LocalDate.parse(dueDate));
+        if (budgetAmount != null) todo.setBudgetAmount(budgetAmount);
+        if (actualAmount != null) todo.setActualAmount(actualAmount);
         todoService.update(todo);
         return TodoDto.from(todo);
     }
@@ -134,5 +144,14 @@ public class TodoTools {
     private boolean isValidCategory(String category) {
         return Arrays.asList("旅行", "グルメ", "買い物", "体験", "学習")
                 .contains(category);
+    }
+
+    private void validateAmounts(Long budgetAmount, Long actualAmount) {
+        if (budgetAmount != null && budgetAmount < 0) {
+            throw new IllegalArgumentException("予算額は0円以上で入力してください。");
+        }
+        if (actualAmount != null && actualAmount < 0) {
+            throw new IllegalArgumentException("実際の金額は0円以上で入力してください。");
+        }
     }
 }

@@ -5,6 +5,8 @@ CREATE TABLE todos (
     category VARCHAR(255) NOT NULL,
     priority INT NOT NULL DEFAULT 2,
     due_date DATE NULL,
+    budget_amount BIGINT NULL,
+    actual_amount BIGINT NULL,
     completed BOOLEAN NOT NULL DEFAULT FALSE,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -13,5 +15,7 @@ CREATE TABLE todos (
         '旅行', 'グルメ', '買い物', '体験', '学習'
     )),
     CONSTRAINT chk_todos_priority CHECK (priority IN (1, 2, 3)),
-    CONSTRAINT chk_todos_completed CHECK (completed IN (0, 1))
+    CONSTRAINT chk_todos_completed CHECK (completed IN (0, 1)),
+    CONSTRAINT chk_todos_budget_amount CHECK (budget_amount IS NULL OR budget_amount >= 0),
+    CONSTRAINT chk_todos_actual_amount CHECK (actual_amount IS NULL OR actual_amount >= 0)
 );

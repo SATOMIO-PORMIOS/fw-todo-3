@@ -46,6 +46,16 @@
                 <label class="form-label" for="dueDate">期限</label>
                 <input class="form-input" id="dueDate" type="date" th:field="*{dueDate}">
             </div>
+            <div class="form-row">
+                <label class="form-label" for="budgetAmount">予算額（円）</label>
+                <input class="form-input" id="budgetAmount" type="number" min="0" step="1" th:field="*{budgetAmount}">
+                <p class="error" th:if="${#fields.hasErrors('budgetAmount')}" th:errors="*{budgetAmount}"></p>
+            </div>
+            <div class="form-row">
+                <label class="form-label" for="actualAmount">実際の金額（円）</label>
+                <input class="form-input" id="actualAmount" type="number" min="0" step="1" th:field="*{actualAmount}">
+                <p class="error" th:if="${#fields.hasErrors('actualAmount')}" th:errors="*{actualAmount}"></p>
+            </div>
             <button class="btn" type="submit">確認する</button>
             <a class="btn sub" th:href="@{/todos}">一覧へ</a>
         </form>

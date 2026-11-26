@@ -4,6 +4,7 @@ import com.example.todoapp.Todo;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
 
 public class TodoRequest {
@@ -21,6 +22,10 @@ public class TodoRequest {
     private Integer priority;
 
     private LocalDate dueDate;
+    @PositiveOrZero(message = "予算額は0円以上で入力してください")
+    private Long budgetAmount;
+    @PositiveOrZero(message = "実際の金額は0円以上で入力してください")
+    private Long actualAmount;
     private Boolean completed;
 
     public Todo toTodo() {
@@ -30,6 +35,8 @@ public class TodoRequest {
         todo.setCategory(category);
         todo.setPriority(priority);
         todo.setDueDate(dueDate);
+        todo.setBudgetAmount(budgetAmount);
+        todo.setActualAmount(actualAmount);
         todo.setCompleted(completed);
         return todo;
     }
@@ -44,6 +51,10 @@ public class TodoRequest {
     public void setPriority(Integer priority) { this.priority = priority; }
     public LocalDate getDueDate() { return dueDate; }
     public void setDueDate(LocalDate dueDate) { this.dueDate = dueDate; }
+    public Long getBudgetAmount() { return budgetAmount; }
+    public void setBudgetAmount(Long budgetAmount) { this.budgetAmount = budgetAmount; }
+    public Long getActualAmount() { return actualAmount; }
+    public void setActualAmount(Long actualAmount) { this.actualAmount = actualAmount; }
     public Boolean getCompleted() { return completed; }
     public void setCompleted(Boolean completed) { this.completed = completed; }
 }

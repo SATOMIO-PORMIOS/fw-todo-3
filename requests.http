@@ -6,7 +6,9 @@ Content-Type: application/json
   "title": "新しいロゴ案を作る",
   "category": "旅行",
   "priority": 2,
-  "dueDate": "2026-12-10"
+  "dueDate": "2026-12-10",
+  "budgetAmount": 50000,
+  "actualAmount": 48000
 }
 
 ### 2. 1件取得する
@@ -22,6 +24,8 @@ Content-Type: application/json
   "category": "旅行",
   "priority": 2,
   "dueDate": "2026-12-10",
+  "budgetAmount": 50000,
+  "actualAmount": 48000,
   "completed": false
 }
 
