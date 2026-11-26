@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDoアプリ テスト仕様書</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 12px; font-family: sans-serif; font-size: 12px; color: #222; }
+        h1 { font-size: 20px; margin: 0 0 8px; }
+        .toolbar { display: flex; justify-content: flex-end; margin-bottom: 8px; }
+        button { padding: 6px 12px; }
+        table { width: 100%; table-layout: fixed; border-collapse: collapse; }
+        col.no { width: 5%; } col.item { width: 20%; } col.input { width: 15%; }
+        col.expected { width: 25%; } col.result { width: 10%; } col.notes { width: 25%; }
+        th, td { border: 1px solid #555; padding: 4px; vertical-align: top; overflow-wrap: anywhere; }
+        th { background: #eee; font-size: 11px; }
+        td { font-size: 11px; }
+        .radio-option { white-space: nowrap; }
+        textarea { display: block; width: 100%; min-height: 42px; resize: vertical; font: inherit; }
+        @media print {
+            @page { size: landscape; margin: 8mm; }
+            body { margin: 0; font-size: 9px; }
+            h1 { font-size: 15px; }
+            .toolbar { display: none !important; }
+            th, td { padding: 3px; font-size: 8px; }
+            tr { break-inside: avoid; }
+            textarea { height: auto; min-height: 1em; overflow: visible; resize: none; border: 0; padding: 0; }
+        }
+    </style>
+</head>
+<body>
+    <h1>ToDoアプリ テスト仕様書</h1>
+    <div class="toolbar"><button type="button" onclick="window.print()">PDFで保存</button></div>
+    <table>
+        <colgroup><col class="no"><col class="item"><col class="input"><col class="expected"><col class="result"><col class="notes"></colgroup>
+        <thead><tr><th>番号</th><th>確かめること</th><th>入れる値</th><th>期待する結果</th><th>結果</th><th>備考/NG</th></tr></thead>
+        <tbody>
+            <tr><td>1</td><td>一覧を開き、登録済みデータを確認する</td><td>http://localhost:8080/todos</td><td>一覧に既存の5件が表示されます。</td><td><label class="radio-option"><input type="radio" name="r1" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r1" value="NG">NG</label></td><td><textarea aria-label="1 備考・NG内容"></textarea></td></tr>
+            <tr><td>2</td><td>一覧の列と表示文字を確認する</td><td>なし</td><td>列が「やること／ジャンル／優先度／期限／状態／操作」の順で、高・中・低と完了・未完了が表示されます。</td><td><label class="radio-option"><input type="radio" name="r2" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r2" value="NG">NG</label></td><td><textarea aria-label="2 備考・NG内容"></textarea></td></tr>
+            <tr><td>3</td><td>「新規登録」から登録画面へ進む</td><td>一覧の「新規登録」</td><td>登録画面が開き、「やること」「メモ」「ジャンル」「優先度」「期限」の入力欄が表示されます。</td><td><label class="radio-option"><input type="radio" name="r3" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r3" value="NG">NG</label></td><td><textarea aria-label="3 備考・NG内容"></textarea></td></tr>
+            <tr><td>4</td><td>登録画面の入力欄・選択肢を確認する</td><td>ジャンル・優先度の選択肢</td><td>ジャンルに「すべて」を除く5種類、優先度に「高・中・低」が表示され、両方の初期選択は空欄です。</td><td><label class="radio-option"><input type="radio" name="r4" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r4" value="NG">NG</label></td><td><textarea aria-label="4 備考・NG内容"></textarea></td></tr>
+            <tr><td>5</td><td>登録でやることを空にして確認する</td><td>やることは空、ジャンル「デザイン」、優先度「高」</td><td>登録画面に留まり、やること欄の下に「やることを入力してください」と表示され、他の入力値は残ります。</td><td><label class="radio-option"><input type="radio" name="r5" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r5" value="NG">NG</label></td><td><textarea aria-label="5 備考・NG内容"></textarea></td></tr>
+            <tr><td>6</td><td>登録でやることに半角空白だけを入れて確認する</td><td>やること「   」、ジャンル「デザイン」、優先度「高」</td><td>登録画面に留まり、やること欄の下に「やることを入力してください」と表示されます。</td><td><label class="radio-option"><input type="radio" name="r6" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r6" value="NG">NG</label></td><td><textarea aria-label="6 備考・NG内容"></textarea></td></tr>
+            <tr><td>7</td><td>登録でやることに全角空白だけを入れて確認する</td><td>やること「　　」、ジャンル「デザイン」、優先度「高」</td><td>登録画面に留まり、やること欄の下に「やることを入力してください」と表示されます。</td><td><label class="radio-option"><input type="radio" name="r7" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r7" value="NG">NG</label></td><td><textarea aria-label="7 備考・NG内容"></textarea></td></tr>
+            <tr><td>8</td><td>登録でやることを256文字にして確認する</td><td>やることに「あ」を256文字、ジャンル「デザイン」、優先度「高」</td><td>登録画面に留まり、やること欄の下に「やることは255文字以内で入力してください」と表示されます。</td><td><label class="radio-option"><input type="radio" name="r8" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r8" value="NG">NG</label></td><td><textarea aria-label="8 備考・NG内容"></textarea></td></tr>
+            <tr><td>9</td><td>登録でメモを256文字にして確認する</td><td>やること「テスト」、メモに「あ」を256文字、ジャンル「デザイン」、優先度「高」</td><td>登録画面に留まり、メモ欄の下に「メモは255文字以内で入力してください」と表示されます。</td><td><label class="radio-option"><input type="radio" name="r9" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r9" value="NG">NG</label></td><td><textarea aria-label="9 備考・NG内容"></textarea></td></tr>
+            <tr><td>10</td><td>登録でジャンルを選ばず確認する</td><td>やること「テスト」、優先度「高」、ジャンル未選択</td><td>登録画面に留まり、ジャンル欄の下に「ジャンルを選んでください」と表示されます。</td><td><label class="radio-option"><input type="radio" name="r10" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r10" value="NG">NG</label></td><td><textarea aria-label="10 備考・NG内容"></textarea></td></tr>
+            <tr><td>11</td><td>登録で優先度を選ばず確認する</td><td>やること「テスト」、ジャンル「デザイン」、優先度未選択</td><td>登録画面に留まり、優先度欄の下に「優先度を選んでください」と表示されます。</td><td><label class="radio-option"><input type="radio" name="r11" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r11" value="NG">NG</label></td><td><textarea aria-label="11 備考・NG内容"></textarea></td></tr>
+            <tr><td>12</td><td>有効な内容を入力し登録確認へ進む</td><td>やること「テスト用ワイヤー課題」、メモ「テストメモ」、ジャンル「デザイン」、優先度「高」、期限「2099-01-01」</td><td>登録確認画面に5項目が文字で表示され、空欄の項目があれば「（入力なし）」と表示されます。</td><td><label class="radio-option"><input type="radio" name="r12" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r12" value="NG">NG</label></td><td><textarea aria-label="12 備考・NG内容"></textarea></td></tr>
+            <tr><td>13</td><td>登録確認から「書き直す」で戻る</td><td>12番で入力した値</td><td>登録画面に戻り、やること・メモ・ジャンル・優先度・期限に12番の値が入っています。</td><td><label class="radio-option"><input type="radio" name="r13" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r13" value="NG">NG</label></td><td><textarea aria-label="13 備考・NG内容"></textarea></td></tr>
+            <tr><td>14</td><td>「登録する」でテスト用の1件を登録する</td><td>12番の内容を確認し「登録する」</td><td>一覧へ移動し、最上部に「登録しました」と表示され、テスト用の行が1件追加されます。</td><td><label class="radio-option"><input type="radio" name="r14" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r14" value="NG">NG</label></td><td><textarea aria-label="14 備考・NG内容"></textarea></td></tr>
+            <tr><td>15</td><td>名前の一部で絞り込む</td><td>やること「ワイヤー」</td><td>一覧には名前に「ワイヤー」を含む行だけが表示され、入力した言葉が欄に残ります。</td><td><label class="radio-option"><input type="radio" name="r15" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r15" value="NG">NG</label></td><td><textarea aria-label="15 備考・NG内容"></textarea></td></tr>
+            <tr><td>16</td><td>ジャンルを完全一致で絞り込む</td><td>名前は空、ジャンル「デザイン」</td><td>一覧にはジャンルが「デザイン」の行だけが表示されます。</td><td><label class="radio-option"><input type="radio" name="r16" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r16" value="NG">NG</label></td><td><textarea aria-label="16 備考・NG内容"></textarea></td></tr>
+            <tr><td>17</td><td>名前とジャンルの両方で絞り込む</td><td>やること「ワイヤー」、ジャンル「デザイン」</td><td>一覧には名前に「ワイヤー」を含み、かつジャンルが「デザイン」の行だけが表示されます。</td><td><label class="radio-option"><input type="radio" name="r17" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r17" value="NG">NG</label></td><td><textarea aria-label="17 備考・NG内容"></textarea></td></tr>
+            <tr><td>18</td><td>名前を空、ジャンルを「すべて」にする</td><td>名前空欄、ジャンル「すべて」</td><td>絞り込み条件が外れ、登録済みの全6件が表示されます。</td><td><label class="radio-option"><input type="radio" name="r18" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r18" value="NG">NG</label></td><td><textarea aria-label="18 備考・NG内容"></textarea></td></tr>
+            <tr><td>19</td><td>一致する行がない条件で絞り込む</td><td>やること「該当なしテスト文字列」</td><td>一覧の表の代わりに「まだ1件も登録されていません」と表示されます。</td><td><label class="radio-option"><input type="radio" name="r19" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r19" value="NG">NG</label></td><td><textarea aria-label="19 備考・NG内容"></textarea></td></tr>
+            <tr><td>20</td><td>期限が近い順に並び替える</td><td>「期限が近い順」</td><td>一覧のURLに「order=asc」が付き、期限の早い行から表示されます。</td><td><label class="radio-option"><input type="radio" name="r20" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r20" value="NG">NG</label></td><td><textarea aria-label="20 備考・NG内容"></textarea></td></tr>
+            <tr><td>21</td><td>期限が遠い順に並び替える</td><td>「期限が遠い順」</td><td>一覧のURLに「order=desc」が付き、期限の遅い行から表示されます。</td><td><label class="radio-option"><input type="radio" name="r21" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r21" value="NG">NG</label></td><td><textarea aria-label="21 備考・NG内容"></textarea></td></tr>
+            <tr><td>22</td><td>絞り込み後に並び替えて条件が保たれることを確認する</td><td>名前「ワイヤー」、ジャンル「デザイン」の後に「期限が遠い順」</td><td>並び替え後も名前欄は「ワイヤー」、ジャンルは「デザイン」のままで、該当行が表示されます。</td><td><label class="radio-option"><input type="radio" name="r22" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r22" value="NG">NG</label></td><td><textarea aria-label="22 備考・NG内容"></textarea></td></tr>
+            <tr><td>23</td><td>並び替え後に絞り込み条件が保たれることを確認する</td><td>「期限が遠い順」の状態で名前「ワイヤー」、ジャンル「デザイン」を絞り込む</td><td>絞り込み後もURLに「order=desc」が付き、期限が遠い順で該当行が表示されます。</td><td><label class="radio-option"><input type="radio" name="r23" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r23" value="NG">NG</label></td><td><textarea aria-label="23 備考・NG内容"></textarea></td></tr>
+            <tr><td>24</td><td>検索条件と並び順のURLを開き直す</td><td>keyword=ワイヤー、category=デザイン、order=desc の一覧URLを再度開く</td><td>同じ条件と期限が遠い順が保たれ、同じ対象行が表示されます。</td><td><label class="radio-option"><input type="radio" name="r24" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r24" value="NG">NG</label></td><td><textarea aria-label="24 備考・NG内容"></textarea></td></tr>
+            <tr><td>25</td><td>テスト用の行から編集画面を開く</td><td>テスト用の行の「編集」</td><td>編集画面が開き、登録した内容が入力欄に表示されます。</td><td><label class="radio-option"><input type="radio" name="r25" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r25" value="NG">NG</label></td><td><textarea aria-label="25 備考・NG内容"></textarea></td></tr>
+            <tr><td>26</td><td>編集画面の6項目を確認する</td><td>テスト用の行</td><td>やること・メモ・ジャンル・優先度・期限・完了が現在値で表示されます。</td><td><label class="radio-option"><input type="radio" name="r26" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r26" value="NG">NG</label></td><td><textarea aria-label="26 備考・NG内容"></textarea></td></tr>
+            <tr><td>27</td><td>編集でやることを空にして確認する</td><td>やること空、ほかの必須欄は現在値</td><td>編集画面に留まり、やること欄の下に「やることを入力してください」と表示されます。</td><td><label class="radio-option"><input type="radio" name="r27" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r27" value="NG">NG</label></td><td><textarea aria-label="27 備考・NG内容"></textarea></td></tr>
+            <tr><td>28</td><td>編集でやることを256文字にして確認する</td><td>やることに「あ」を256文字、ほかは有効値</td><td>編集画面に留まり、やること欄の下に「やることは255文字以内で入力してください」と表示されます。</td><td><label class="radio-option"><input type="radio" name="r28" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r28" value="NG">NG</label></td><td><textarea aria-label="28 備考・NG内容"></textarea></td></tr>
+            <tr><td>29</td><td>編集でメモを256文字にして確認する</td><td>メモに「あ」を256文字、ほかは有効値</td><td>編集画面に留まり、メモ欄の下に「メモは255文字以内で入力してください」と表示されます。</td><td><label class="radio-option"><input type="radio" name="r29" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r29" value="NG">NG</label></td><td><textarea aria-label="29 備考・NG内容"></textarea></td></tr>
+            <tr><td>30</td><td>編集でジャンルを未選択にして確認する</td><td>ジャンル未選択、ほかは有効値</td><td>編集画面に留まり、ジャンル欄の下に「ジャンルを選んでください」と表示されます。</td><td><label class="radio-option"><input type="radio" name="r30" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r30" value="NG">NG</label></td><td><textarea aria-label="30 備考・NG内容"></textarea></td></tr>
+            <tr><td>31</td><td>編集で優先度を未選択にして確認する</td><td>優先度未選択、ほかは有効値</td><td>編集画面に留まり、優先度欄の下に「優先度を選んでください」と表示されます。</td><td><label class="radio-option"><input type="radio" name="r31" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r31" value="NG">NG</label></td><td><textarea aria-label="31 備考・NG内容"></textarea></td></tr>
+            <tr><td>32</td><td>有効な編集内容を確認画面で確認する</td><td>やること「テスト用ワイヤー課題変更」、メモ「変更後メモ」、ジャンル「デザイン」、優先度「中」、期限「2099-01-02」、完了にチェック</td><td>編集確認画面に6項目が文字で表示され、優先度は「中」、完了は「完了」と表示されます。</td><td><label class="radio-option"><input type="radio" name="r32" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r32" value="NG">NG</label></td><td><textarea aria-label="32 備考・NG内容"></textarea></td></tr>
+            <tr><td>33</td><td>編集確認から「書き直す」で戻る</td><td>32番で入力した値</td><td>編集画面に戻り、6項目に32番の値が入っています。</td><td><label class="radio-option"><input type="radio" name="r33" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r33" value="NG">NG</label></td><td><textarea aria-label="33 備考・NG内容"></textarea></td></tr>
+            <tr><td>34</td><td>編集内容を保存する</td><td>32番の内容で「保存する」</td><td>一覧へ移動し、最上部に「保存しました」と表示され、テスト用の行が変更後の内容になります。</td><td><label class="radio-option"><input type="radio" name="r34" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r34" value="NG">NG</label></td><td><textarea aria-label="34 備考・NG内容"></textarea></td></tr>
+            <tr><td>35</td><td>編集で存在しない番号を開く</td><td>/todos/0/edit</td><td>一覧へ移動し、最上部に「見つかりませんでした」と表示されます。</td><td><label class="radio-option"><input type="radio" name="r35" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r35" value="NG">NG</label></td><td><textarea aria-label="35 備考・NG内容"></textarea></td></tr>
+            <tr><td>36</td><td>テスト用の行から削除確認を開く</td><td>テスト用の行の「削除」</td><td>削除確認画面に対象のやること・ジャンル・期限が文字で表示され、入力欄は表示されません。</td><td><label class="radio-option"><input type="radio" name="r36" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r36" value="NG">NG</label></td><td><textarea aria-label="36 備考・NG内容"></textarea></td></tr>
+            <tr><td>37</td><td>削除確認で「やめる」を押す</td><td>「やめる」</td><td>一覧へ戻り、テスト用の行は残っています。</td><td><label class="radio-option"><input type="radio" name="r37" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r37" value="NG">NG</label></td><td><textarea aria-label="37 備考・NG内容"></textarea></td></tr>
+            <tr><td>38</td><td>削除確認で存在しない番号を開く</td><td>/todos/0/delete</td><td>一覧へ移動し、最上部に「見つかりませんでした」と表示されます。</td><td><label class="radio-option"><input type="radio" name="r38" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r38" value="NG">NG</label></td><td><textarea aria-label="38 備考・NG内容"></textarea></td></tr>
+            <tr><td>39</td><td>一覧上部に操作後の文が出ることを確認する</td><td>登録・保存後の一覧を開く</td><td>登録後は「登録しました」、編集保存後は「保存しました」が一覧のいちばん上に1行表示されます。</td><td><label class="radio-option"><input type="radio" name="r39" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r39" value="NG">NG</label></td><td><textarea aria-label="39 備考・NG内容"></textarea></td></tr>
+            <tr><td>40</td><td>テストで増やした行を削除し、件数を戻す</td><td>テスト用の行を削除確認から「消す」</td><td>一覧へ移動して「削除しました」と表示され、テスト用の行が消え、一覧は元の5件になります。</td><td><label class="radio-option"><input type="radio" name="r40" value="OK">OK</label><br><label class="radio-option"><input type="radio" name="r40" value="NG">NG</label></td><td><textarea aria-label="40 備考・NG内容"></textarea></td></tr>
+        </tbody>
+    </table>
+    <script>
+        function fitTextareas() {
+            document.querySelectorAll('textarea').forEach(function (area) {
+                area.style.height = 'auto';
+                area.style.height = area.scrollHeight + 'px';
+            });
+        }
+        document.querySelectorAll('textarea').forEach(function (area) {
+            area.addEventListener('input', fitTextareas);
+        });
+        window.addEventListener('beforeprint', fitTextareas);
+    </script>
+</body>
+</html>
