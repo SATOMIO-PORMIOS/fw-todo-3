@@ -21,6 +21,7 @@
         <p class="confirm-value">状態：<span th:text="${todo.completed ? '完了' : '未完了'}">状態</span></p>
         <div class="confirm-actions">
             <a class="btn" th:href="@{/todos/{id}/edit(id=${todo.id})}">編集</a>
+            <a class="btn sub" th:href="@{/todos/{id}/delete(id=${todo.id})}">削除</a>
             <a class="btn sub" th:href="@{/todos}">一覧へ</a>
         </div>
     </main>

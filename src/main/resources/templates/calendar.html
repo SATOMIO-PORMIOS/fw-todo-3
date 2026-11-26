@@ -11,11 +11,11 @@
         <h1 class="page-title" th:text="|${year}年${month}月|">年月</h1>
         <nav class="calendar-navigation" aria-label="月の移動">
             <div class="calendar-navigation-group">
-            <a class="btn sub" th:href="@{/calendar(year=${previousMonth.year}, month=${previousMonth.monthValue})}">前の月</a>
-            <a class="btn sub" th:href="@{/calendar(year=${nextMonth.year}, month=${nextMonth.monthValue})}">次の月</a>
+            <a class="btn sub" th:href="@{/calendar(year=${previousMonth.year}, month=${previousMonth.monthValue})}">前月</a>
+            <a class="btn sub" th:href="@{/calendar(year=${nextMonth.year}, month=${nextMonth.monthValue})}">翌月</a>
             </div>
             <div class="calendar-navigation-group">
-                <a class="btn sub" th:href="@{/todos}">表で見る</a>
+                <a class="btn sub" th:href="@{/todos}">一覧</a>
                 <a class="btn" th:href="@{/todos/new}">新規登録</a>
             </div>
         </nav>
@@ -87,7 +87,11 @@
                     editLink.appendChild(overdueMarker);
                 }
                 editLink.appendChild(categoryIcon);
-                editLink.appendChild(document.createTextNode(todo.title));
+                const titleText = document.createElement("span");
+                titleText.className = "calendar-todo-title";
+                titleText.dataset.fullTitle = todo.title;
+                titleText.textContent = formatCalendarTodoTitle(todo.title, mobileCalendarQuery.matches);
+                editLink.appendChild(titleText);
                 todoName.appendChild(editLink);
                 cell.appendChild(todoName);
             }
@@ -99,6 +103,21 @@
             }
         }
     }
+
+    const mobileCalendarQuery = window.matchMedia("(max-width: 600px)");
+
+    function formatCalendarTodoTitle(title, isMobile) {
+        const characters = Array.from(title);
+        return isMobile && characters.length > 5
+            ? `${characters.slice(0, 5).join("")}…`
+            : title;
+    }
+
+    mobileCalendarQuery.addEventListener("change", event => {
+        document.querySelectorAll(".calendar-todo-title").forEach(titleElement => {
+            titleElement.textContent = formatCalendarTodoTitle(titleElement.dataset.fullTitle, event.matches);
+        });
+    });
 
     async function loadHolidaysForCalendar() {
         const calendarTable = document.querySelector(".calendar-table");

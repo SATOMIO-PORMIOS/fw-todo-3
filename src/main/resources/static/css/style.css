@@ -77,6 +77,11 @@ body {
     font-weight: bold;
 }
 
+.todo-title-link {
+    color: #bfdbfe;
+    text-decoration: underline;
+}
+
 .todo-table tr.overdue {
     background: #7f1d1d;
 }
@@ -390,8 +395,45 @@ body {
         flex-basis: auto;
     }
 
+    .todo-table {
+        min-width: 0;
+        table-layout: auto;
+    }
+
+    .todo-table th,
+    .todo-table td {
+        padding: 4px;
+        font-size: 12px;
+    }
+
+    .todo-table th:nth-child(2),
+    .todo-table td:nth-child(2),
+    .todo-table th:nth-child(3),
+    .todo-table td:nth-child(3),
+    .todo-table th:nth-child(5),
+    .todo-table td:nth-child(5),
+    .todo-table th:nth-child(6),
+    .todo-table td:nth-child(6),
+    .todo-table th:nth-child(8),
+    .todo-table td:nth-child(8),
+    .amount-totals {
+        display: none;
+    }
+
+    .todo-table th:nth-child(1),
+    .todo-table td:nth-child(1) { width: 55%; }
+    .todo-table th:nth-child(4),
+    .todo-table td:nth-child(4) { width: 22%; }
+    .todo-table th:nth-child(7),
+    .todo-table td:nth-child(7) { width: 23%; }
+
     .calendar-table td {
         height: 72px;
         padding: 4px;
+    }
+
+    .calendar-todo-title {
+        font-size: 11px;
+        line-height: 1.3;
     }
 }
