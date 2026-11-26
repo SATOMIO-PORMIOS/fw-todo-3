@@ -370,15 +370,22 @@ body[data-theme="light"] .calendar-table a:focus-visible { color: #0f172a; }
 }
 
 .sort-controls a {
-    color: #bfdbfe;
+    color: var(--link);
     text-decoration: none;
 }
+
+body[data-theme="dark"] .sort-controls a { color: #bfdbfe; }
+body[data-theme="light"] .sort-controls a { color: #1d4ed8; }
 
 .sort-controls a:hover,
 .sort-controls a:focus-visible,
 .sort-controls a.sort-active {
-    color: #ffffff;
+    color: var(--heading);
 }
+
+body[data-theme="light"] .sort-controls a:hover,
+body[data-theme="light"] .sort-controls a:focus-visible,
+body[data-theme="light"] .sort-controls a.sort-active { color: #0f172a; }
 
 .calendar-category-icon {
     display: inline-flex;
