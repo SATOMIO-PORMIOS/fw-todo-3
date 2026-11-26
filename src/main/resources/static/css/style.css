@@ -26,15 +26,41 @@ body {
 
 .todo-table {
     width: 100%;
+    min-width: 860px;
+    table-layout: fixed;
     border-collapse: collapse;
+}
+
+.table-scroll {
+    width: 100%;
+    overflow-x: auto;
 }
 
 .todo-table th,
 .todo-table td {
     border: 1px solid #64748b;
-    padding: 6px 10px;
+    padding: 4px 5px;
     text-align: left;
-    font-size: 14px;
+    font-size: 13px;
+}
+
+.todo-table th {
+    white-space: nowrap;
+}
+
+.todo-table th:nth-child(1), .todo-table td:nth-child(1) { width: 21%; }
+.todo-table th:nth-child(2), .todo-table td:nth-child(2) { width: 8%; }
+.todo-table th:nth-child(3), .todo-table td:nth-child(3) { width: 11%; }
+.todo-table th:nth-child(4), .todo-table td:nth-child(4) { width: 10%; }
+.todo-table th:nth-child(5), .todo-table td:nth-child(5) { width: 12%; }
+.todo-table th:nth-child(6), .todo-table td:nth-child(6) { width: 14%; }
+.todo-table th:nth-child(7), .todo-table td:nth-child(7) { width: 9%; }
+.todo-table th:nth-child(8), .todo-table td:nth-child(8) { width: 15%; }
+}
+
+.todo-table th:not(:first-child),
+.todo-table td:not(:first-child) {
+    text-align: right;
 }
 
 .todo-table th:nth-child(5),
@@ -42,6 +68,8 @@ body {
 .todo-table td:nth-child(5),
 .todo-table td:nth-child(6) {
     text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
 }
 
 .todo-table th {
@@ -56,6 +84,43 @@ body {
 .todo-table td.priority-high::after {
     content: " ★";
     color: #fca5a5;
+}
+
+.todo-actions {
+    display: inline-flex;
+    gap: 4px;
+}
+
+.action-icon {
+    display: inline-flex;
+    width: 27px;
+    height: 27px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.action-icon svg {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+}
+
+.action-detail { background: #0369a1; }
+.action-edit { background: #6d28d9; }
+.action-delete { background: #b91c1c; }
+
+.action-icon:hover,
+.action-icon:focus-visible {
+    filter: brightness(1.25);
+    outline: 2px solid #f8fafc;
+    outline-offset: 2px;
 }
 
 .flash {
@@ -87,6 +152,55 @@ body {
     align-items: end;
     gap: 12px;
     margin-bottom: 20px;
+}
+
+.search-bar form {
+    width: 100%;
+}
+
+.search-controls {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.category-filter {
+    display: inline-flex;
+    flex: 0 0 180px;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.search-options {
+    flex: 1 1 auto;
+    min-width: 0;
+    border: 1px solid #64748b;
+    border-radius: 8px;
+    padding: 8px 12px;
+    background: #1e293b;
+}
+
+.search-options summary {
+    color: #f8fafc;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.search-options[open] summary {
+    margin-bottom: 8px;
+}
+
+.search-options label {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 4px 12px 8px 0;
+    vertical-align: bottom;
+}
+
+.search-actions {
+    display: flex;
+    gap: 8px;
 }
 
 .form-row {
@@ -200,12 +314,53 @@ body {
     color: #bfdbfe;
     font-weight: 400;
     line-height: 1.4;
+    text-decoration: none;
 }
 
 .calendar-table a:hover,
 .calendar-table a:focus-visible {
     color: #ffffff;
 }
+
+.sort-controls {
+    display: inline-flex;
+    gap: 3px;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+
+.sort-controls a {
+    color: #bfdbfe;
+    text-decoration: none;
+}
+
+.sort-controls a:hover,
+.sort-controls a:focus-visible,
+.sort-controls a.sort-active {
+    color: #ffffff;
+}
+
+.calendar-category-icon {
+    display: inline-flex;
+    width: 1.35em;
+    height: 1.35em;
+    align-items: center;
+    justify-content: center;
+    margin-right: 4px;
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 0.9em;
+    font-weight: 700;
+    line-height: 1;
+    vertical-align: -0.1em;
+}
+
+.category-icon-travel { background: #2563eb; }
+.category-icon-gourmet { background: #c2410c; }
+.category-icon-shopping { background: #7e22ce; }
+.category-icon-experience { background: #047857; }
+.category-icon-learning { background: #0369a1; }
+.category-icon-other { background: #475569; }
 
 .calendar-table td[data-date]:first-child:not([title]) {
     background: #991b1b !important;
@@ -225,6 +380,16 @@ body {
 }
 
 @media (max-width: 600px) {
+    .search-controls {
+        flex-direction: column;
+    }
+
+    .category-filter,
+    .search-options {
+        width: 100%;
+        flex-basis: auto;
+    }
+
     .calendar-table td {
         height: 72px;
         padding: 4px;

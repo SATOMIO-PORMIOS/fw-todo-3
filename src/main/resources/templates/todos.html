@@ -12,41 +12,75 @@
         <p class="flash" th:if="${message != null}" th:text="${message}"></p>
         <div class="search-bar">
             <form th:action="@{/todos}" method="get">
-                <label>やること
-                    <input class="form-input" type="text" name="keyword" th:value="${keyword}">
-                </label>
-                <label>ジャンル
-                    <select class="form-input" name="category" onchange="this.form.requestSubmit()">
-                        <option value="" th:selected="${category == ''}">すべて</option>
-                        <option value="旅行" th:selected="${category == '旅行'}">旅行</option>
-                        <option value="グルメ" th:selected="${category == 'グルメ'}">グルメ</option>
-                        <option value="買い物" th:selected="${category == '買い物'}">買い物</option>
-                        <option value="体験" th:selected="${category == '体験'}">体験</option>
-                        <option value="学習" th:selected="${category == '学習'}">学習</option>
-                    </select>
-                </label>
+                <div class="search-controls">
+                    <label class="category-filter">ジャンル
+                        <select class="form-input" name="category" onchange="this.form.requestSubmit()">
+                            <option value="" th:selected="${category == ''}">すべて</option>
+                            <option value="旅行" th:selected="${category == '旅行'}">旅行</option>
+                            <option value="グルメ" th:selected="${category == 'グルメ'}">グルメ</option>
+                            <option value="買い物" th:selected="${category == '買い物'}">買い物</option>
+                            <option value="体験" th:selected="${category == '体験'}">体験</option>
+                            <option value="学習" th:selected="${category == '学習'}">学習</option>
+                        </select>
+                    </label>
+                    <details class="search-options" th:attr="open=${advancedFiltersActive ? 'open' : null}">
+                        <summary>ジャンル以外の条件</summary>
+                        <label>やること
+                            <input class="form-input" type="text" name="keyword" th:value="${keyword}">
+                        </label>
+                        <label>期間（期限）開始
+                            <input class="form-input" type="date" name="from" th:value="${from}">
+                        </label>
+                        <label>期間（期限）終了
+                            <input class="form-input" type="date" name="to" th:value="${to}">
+                        </label>
+                        <label>優先度
+                            <select class="form-input" name="priority">
+                                <option value="" th:selected="${priority == null}">すべて</option>
+                                <option value="1" th:selected="${priority == 1}">高</option>
+                                <option value="2" th:selected="${priority == 2}">中</option>
+                                <option value="3" th:selected="${priority == 3}">低</option>
+                            </select>
+                        </label>
+                        <label>金額の種類
+                            <select class="form-input" name="amountType">
+                                <option value="actual" th:selected="${amountType == 'actual'}">支出額</option>
+                                <option value="budget" th:selected="${amountType == 'budget'}">予算額</option>
+                            </select>
+                        </label>
+                        <label>金額（円）下限
+                            <input class="form-input" type="number" min="0" step="1" name="minAmount" th:value="${minAmount}">
+                        </label>
+                        <label>金額（円）上限
+                            <input class="form-input" type="number" min="0" step="1" name="maxAmount" th:value="${maxAmount}">
+                        </label>
+                        <div class="search-actions">
+                            <button class="btn" type="submit">絞り込む</button>
+                            <a class="btn sub" th:href="@{/todos}">クリア</a>
+                        </div>
+                    </details>
+                </div>
+                <input type="hidden" name="sortBy" th:value="${sortBy}">
                 <input type="hidden" name="order" th:value="${order}">
-                <button class="btn" type="submit">絞り込む</button>
             </form>
-            <a class="link" th:href="@{/todos(keyword=${keyword}, category=${category}, order='asc')}">期限が近い順</a>
-            <a class="link" th:href="@{/todos(keyword=${keyword}, category=${category}, order='desc')}">期限が遠い順</a>
         </div>
         <p><a class="btn" th:href="@{/todos/new}">新規登録</a> <a class="btn sub" th:href="@{/calendar}">カレンダーで見る</a></p>
         <section class="amount-totals" aria-label="表示中の金額合計">
             <p>表示中の予算額合計：<strong th:text="|${#numbers.formatInteger(budgetTotal, 1, 'COMMA')}円|">0円</strong></p>
-            <p>表示中の実際の金額合計：<strong th:text="|${#numbers.formatInteger(actualTotal, 1, 'COMMA')}円|">0円</strong></p>
+            <p>表示中の支出額合計：<strong th:text="|${#numbers.formatInteger(actualTotal, 1, 'COMMA')}円|">0円</strong></p>
         </section>
         <p th:if="${#lists.isEmpty(todos)}">まだ1件も登録されていません</p>
-        <table class="todo-table" th:unless="${#lists.isEmpty(todos)}">
+        <div class="table-scroll" th:unless="${#lists.isEmpty(todos)}">
+        <table class="todo-table">
             <thead>
                 <tr>
                     <th>やること</th>
                     <th>ジャンル</th>
-                    <th>優先度</th>
-                    <th>期限</th>
-                    <th>予算額</th>
-                    <th>実際の金額</th>
-                    <th>状態</th>
+                    <th>優先度 <span class="sort-controls" aria-label="優先度で並び替え"><a th:classappend="${sortBy == 'priority' and order == 'asc' ? ' sort-active' : ''}" th:href="@{/todos(keyword=${keyword}, category=${category}, from=${from}, to=${to}, priority=${priority}, amountType=${amountType}, minAmount=${minAmount}, maxAmount=${maxAmount}, sortBy='priority', order='asc')}" aria-label="優先度 高い順" title="優先度 高い順">▲</a><a th:classappend="${sortBy == 'priority' and order == 'desc' ? ' sort-active' : ''}" th:href="@{/todos(keyword=${keyword}, category=${category}, from=${from}, to=${to}, priority=${priority}, amountType=${amountType}, minAmount=${minAmount}, maxAmount=${maxAmount}, sortBy='priority', order='desc')}" aria-label="優先度 低い順" title="優先度 低い順">▼</a></span></th>
+                    <th>期限 <span class="sort-controls" aria-label="期限で並び替え"><a th:classappend="${sortBy == 'dueDate' and order == 'asc' ? ' sort-active' : ''}" th:href="@{/todos(keyword=${keyword}, category=${category}, from=${from}, to=${to}, priority=${priority}, amountType=${amountType}, minAmount=${minAmount}, maxAmount=${maxAmount}, sortBy='dueDate', order='asc')}" aria-label="期限が近い順" title="期限が近い順">▲</a><a th:classappend="${sortBy == 'dueDate' and order == 'desc' ? ' sort-active' : ''}" th:href="@{/todos(keyword=${keyword}, category=${category}, from=${from}, to=${to}, priority=${priority}, amountType=${amountType}, minAmount=${minAmount}, maxAmount=${maxAmount}, sortBy='dueDate', order='desc')}" aria-label="期限が遠い順" title="期限が遠い順">▼</a></span></th>
+                    <th>予算額 <span class="sort-controls" aria-label="予算額で並び替え"><a th:classappend="${sortBy == 'budgetAmount' and order == 'asc' ? ' sort-active' : ''}" th:href="@{/todos(keyword=${keyword}, category=${category}, from=${from}, to=${to}, priority=${priority}, amountType=${amountType}, minAmount=${minAmount}, maxAmount=${maxAmount}, sortBy='budgetAmount', order='asc')}" aria-label="予算額 安い順" title="予算額 安い順">▲</a><a th:classappend="${sortBy == 'budgetAmount' and order == 'desc' ? ' sort-active' : ''}" th:href="@{/todos(keyword=${keyword}, category=${category}, from=${from}, to=${to}, priority=${priority}, amountType=${amountType}, minAmount=${minAmount}, maxAmount=${maxAmount}, sortBy='budgetAmount', order='desc')}" aria-label="予算額 高い順" title="予算額 高い順">▼</a></span></th>
+                    <th>支出額 <span class="sort-controls" aria-label="支出額で並び替え"><a th:classappend="${sortBy == 'actualAmount' and order == 'asc' ? ' sort-active' : ''}" th:href="@{/todos(keyword=${keyword}, category=${category}, from=${from}, to=${to}, priority=${priority}, amountType=${amountType}, minAmount=${minAmount}, maxAmount=${maxAmount}, sortBy='actualAmount', order='asc')}" aria-label="支出額 安い順" title="支出額 安い順">▲</a><a th:classappend="${sortBy == 'actualAmount' and order == 'desc' ? ' sort-active' : ''}" th:href="@{/todos(keyword=${keyword}, category=${category}, from=${from}, to=${to}, priority=${priority}, amountType=${amountType}, minAmount=${minAmount}, maxAmount=${maxAmount}, sortBy='actualAmount', order='desc')}" aria-label="支出額 高い順" title="支出額 高い順">▼</a></span></th>
+                    <th>状態 <span class="sort-controls" aria-label="状態で並び替え"><a th:classappend="${sortBy == 'completed' and order == 'asc' ? ' sort-active' : ''}" th:href="@{/todos(keyword=${keyword}, category=${category}, from=${from}, to=${to}, priority=${priority}, amountType=${amountType}, minAmount=${minAmount}, maxAmount=${maxAmount}, sortBy='completed', order='asc')}" aria-label="未完了を先に表示" title="未完了を先に表示">▲</a><a th:classappend="${sortBy == 'completed' and order == 'desc' ? ' sort-active' : ''}" th:href="@{/todos(keyword=${keyword}, category=${category}, from=${from}, to=${to}, priority=${priority}, amountType=${amountType}, minAmount=${minAmount}, maxAmount=${maxAmount}, sortBy='completed', order='desc')}" aria-label="完了を先に表示" title="完了を先に表示">▼</a></span></th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -58,12 +92,25 @@
                     <td th:classappend="${todo.priority == 1} ? ' priority-high' : ''" th:text="${todo.priority == 1 ? '高' : (todo.priority == 2 ? '中' : '低')}">優先度</td>
                     <td th:text="${todo.dueDate}">期限</td>
                     <td th:text="${todo.budgetAmount == null ? '—' : #numbers.formatInteger(todo.budgetAmount, 1, 'COMMA') + '円'}">予算額</td>
-                    <td th:text="${todo.actualAmount == null ? '—' : #numbers.formatInteger(todo.actualAmount, 1, 'COMMA') + '円'}">実際の金額</td>
+                    <td th:text="${todo.actualAmount == null ? '—' : #numbers.formatInteger(todo.actualAmount, 1, 'COMMA') + '円'}">支出額</td>
                     <td th:text="${todo.completed ? '完了' : '未完了'}">状態</td>
-                    <td><a class="link" th:href="@{/todos/{id}(id=${todo.id})}">詳細</a> <a class="link" th:href="@{/todos/{id}/edit(id=${todo.id})}">編集</a> <a class="link" th:href="@{/todos/{id}/delete(id=${todo.id})}">削除</a></td>
+                    <td>
+                        <div class="todo-actions">
+                            <a class="action-icon action-detail" th:href="@{/todos/{id}(id=${todo.id})}" aria-label="詳細" title="詳細">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5M12 8h.01"></path></svg>
+                            </a>
+                            <a class="action-icon action-edit" th:href="@{/todos/{id}/edit(id=${todo.id})}" aria-label="編集" title="編集">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 5 5 5M4 20l4.5-1 10-10a2.1 2.1 0 0 0-5-5l-10 10L4 20Z"></path></svg>
+                            </a>
+                            <a class="action-icon action-delete" th:href="@{/todos/{id}/delete(id=${todo.id})}" aria-label="削除" title="削除">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M5 7l1 14h12l1-14M9 7V4h6v3"></path></svg>
+                            </a>
+                        </div>
+                    </td>
                 </tr>
             </tbody>
         </table>
+        </div>
     </main>
 </body>
 </html>

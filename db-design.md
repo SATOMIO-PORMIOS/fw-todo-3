@@ -22,7 +22,7 @@
 | `priority` | `INT` | 不可 | `2`（中） | 優先度。高＝1、中＝2、低＝3。 |
 | `due_date` | `DATE` | 可 | なし | 期限。 |
 | `budget_amount` | `BIGINT` | 可 | なし | 予算額（円）。0以上の整数。 |
-| `actual_amount` | `BIGINT` | 可 | なし | 実際の金額（円）。0以上の整数。 |
+| `actual_amount` | `BIGINT` | 可 | なし | 支出額（円）。0以上の整数。 |
 | `completed` | `BOOLEAN` | 不可 | `FALSE`（未完了） | 完了状態。完了＝1、未完了＝0。 |
 | `created_at` | `DATETIME` | 不可 | MySQLが登録時刻を設定 | 登録した日時。 |
 | `updated_at` | `DATETIME` | 不可 | MySQLが登録時・更新時に設定 | 最後に直した日時。 |
@@ -78,7 +78,7 @@ CREATE TABLE todos (
 | 5つのジャンルから選び、完全一致で絞り込む | `category` | 叩き台 2、4、5-4／要件定義 3、5、6 |
 | 高・中・低を選び、一覧に表示する | `priority` | 叩き台 2、4、5-1／要件定義 3、5、6 |
 | 任意の期限を登録し、期限順に並べる | `due_date` | 叩き台 2、4、5-4／要件定義 2、3、5、6 |
-| 任意の予算額と実際の金額を円で記録する | `budget_amount`, `actual_amount` | 追加要件 |
+| 任意の予算額と支出額を円で記録する | `budget_amount`, `actual_amount` | 追加要件 |
 | 編集時に完了状態を変え、一覧に表示する | `completed` | 叩き台 2、4／要件定義 3、5 |
 | 登録した日時を自動で残す | `created_at` | 叩き台 2／要件定義 3 |
 | 最後に直した日時を自動で残す | `updated_at` | 叩き台 2／要件定義 3 |

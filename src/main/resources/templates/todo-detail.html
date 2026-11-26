@@ -14,7 +14,7 @@
         <p class="confirm-value">優先度：<span th:text="${todo.priority == 1 ? '高' : (todo.priority == 2 ? '中' : '低')}">優先度</span></p>
         <p class="confirm-value">期限：<span th:text="${todo.dueDate == null ? '（入力なし）' : todo.dueDate}">期限</span></p>
         <p class="confirm-value">予算額：<span th:text="${todo.budgetAmount == null ? '（入力なし）' : todo.budgetAmount + '円'}">予算額</span></p>
-        <p class="confirm-value">実際の金額：<span th:text="${todo.actualAmount == null ? '（入力なし）' : todo.actualAmount + '円'}">実際の金額</span></p>
+        <p class="confirm-value">支出額：<span th:text="${todo.actualAmount == null ? '（入力なし）' : todo.actualAmount + '円'}">支出額</span></p>
         <p class="confirm-value" th:if="${todo.budgetAmount != null and todo.actualAmount != null}">
             差額：<span th:text="${todo.budgetAmount >= todo.actualAmount ? '予算内 ' + (todo.budgetAmount - todo.actualAmount) + '円' : '予算超過 ' + (todo.actualAmount - todo.budgetAmount) + '円'}">差額</span>
         </p>

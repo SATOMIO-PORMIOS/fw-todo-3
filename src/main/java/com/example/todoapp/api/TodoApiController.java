@@ -35,9 +35,16 @@ public class TodoApiController {
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) String category,
             @RequestParam(required = false) String order,
+            @RequestParam(required = false) String sortBy,
             @RequestParam(required = false) LocalDate from,
-            @RequestParam(required = false) LocalDate to) {
-        List<Todo> todos = todoService.search(keyword, category, order, from, to);
+            @RequestParam(required = false) LocalDate to,
+            @RequestParam(required = false) Integer priority,
+            @RequestParam(required = false) String amountType,
+            @RequestParam(required = false) Long minAmount,
+            @RequestParam(required = false) Long maxAmount) {
+        List<Todo> todos = todoService.search(keyword, category, order,
+                sortBy == null ? "dueDate" : sortBy, from, to,
+                priority, amountType == null ? "actual" : amountType, minAmount, maxAmount);
         return todos.stream().map(TodoDto::from).collect(Collectors.toList());
     }
 

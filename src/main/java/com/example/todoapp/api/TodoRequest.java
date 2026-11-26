@@ -24,7 +24,7 @@ public class TodoRequest {
     private LocalDate dueDate;
     @PositiveOrZero(message = "予算額は0円以上で入力してください")
     private Long budgetAmount;
-    @PositiveOrZero(message = "実際の金額は0円以上で入力してください")
+    @PositiveOrZero(message = "支出額は0円以上で入力してください")
     private Long actualAmount;
     private Boolean completed;
 

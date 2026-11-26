@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.math.BigInteger;
+import java.time.LocalDate;
 import org.springframework.validation.BindingResult;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -32,12 +33,29 @@ public class HomeController {
     public String todos(@RequestParam(name = "keyword", defaultValue = "") String keyword,
                         @RequestParam(name = "category", defaultValue = "") String category,
                         @RequestParam(name = "order", defaultValue = "asc") String order,
+                        @RequestParam(name = "sortBy", defaultValue = "dueDate") String sortBy,
+                        @RequestParam(name = "from", required = false) LocalDate from,
+                        @RequestParam(name = "to", required = false) LocalDate to,
+                        @RequestParam(name = "priority", required = false) Integer priority,
+                        @RequestParam(name = "amountType", defaultValue = "actual") String amountType,
+                        @RequestParam(name = "minAmount", required = false) Long minAmount,
+                        @RequestParam(name = "maxAmount", required = false) Long maxAmount,
                         Model model) {
-        List<Todo> todos = todoService.search(keyword, category, order);
+        List<Todo> todos = todoService.search(keyword, category, order, sortBy, from, to,
+                priority, amountType, minAmount, maxAmount);
         model.addAttribute("todos", todos);
         model.addAttribute("keyword", keyword);
         model.addAttribute("category", category);
         model.addAttribute("order", order);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("from", from);
+        model.addAttribute("to", to);
+        model.addAttribute("priority", priority);
+        model.addAttribute("amountType", amountType);
+        model.addAttribute("minAmount", minAmount);
+        model.addAttribute("maxAmount", maxAmount);
+        model.addAttribute("advancedFiltersActive", !keyword.isBlank() || from != null || to != null
+                || priority != null || minAmount != null || maxAmount != null);
         model.addAttribute("budgetTotal", todos.stream()
                 .map(todo -> todo.getBudgetAmount() == null ? 0L : todo.getBudgetAmount())
                 .map(BigInteger::valueOf)

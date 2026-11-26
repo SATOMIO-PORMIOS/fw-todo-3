@@ -16,7 +16,17 @@ public class TodoService {
     }
 
     public List<Todo> search(String keyword, String category, String order, LocalDate from, LocalDate to) {
-        return todoMapper.search(keyword, category, order, from, to);
+        return search(keyword, category, order, "dueDate", from, to, null, null, null, null);
+    }
+
+    public List<Todo> search(String keyword, String category, String order, String sortBy, LocalDate from, LocalDate to,
+                             Integer priority, Long minAmount, Long maxAmount) {
+        return search(keyword, category, order, sortBy, from, to, priority, "actual", minAmount, maxAmount);
+    }
+
+    public List<Todo> search(String keyword, String category, String order, String sortBy, LocalDate from, LocalDate to,
+                             Integer priority, String amountType, Long minAmount, Long maxAmount) {
+        return todoMapper.search(keyword, category, order, sortBy, from, to, priority, amountType, minAmount, maxAmount);
     }
 
     public List<Todo> search(String keyword, String category, String order) {

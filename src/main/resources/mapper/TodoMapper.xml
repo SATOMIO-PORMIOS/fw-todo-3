@@ -17,8 +17,30 @@
             <if test="to != null">
                 AND due_date &lt;= #{to}
             </if>
+            <if test="priority != null">
+                AND priority = #{priority}
+            </if>
+            <if test="minAmount != null and amountType == 'budget'">
+                AND budget_amount &gt;= #{minAmount}
+            </if>
+            <if test="minAmount != null and amountType != 'budget'">
+                AND actual_amount &gt;= #{minAmount}
+            </if>
+            <if test="maxAmount != null and amountType == 'budget'">
+                AND budget_amount &lt;= #{maxAmount}
+            </if>
+            <if test="maxAmount != null and amountType != 'budget'">
+                AND actual_amount &lt;= #{maxAmount}
+            </if>
         </where>
-        ORDER BY due_date
+        ORDER BY
+        <choose>
+            <when test="sortBy == 'priority'">priority</when>
+            <when test="sortBy == 'budgetAmount'">budget_amount</when>
+            <when test="sortBy == 'actualAmount'">actual_amount</when>
+            <when test="sortBy == 'completed'">completed</when>
+            <otherwise>due_date</otherwise>
+        </choose>
         <choose>
             <when test="order == 'desc'">DESC</when>
             <otherwise>ASC</otherwise>

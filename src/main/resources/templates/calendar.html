@@ -64,15 +64,17 @@
                 const editLink = document.createElement("a");
                 editLink.href = `/todos/${todo.id}/edit`;
                 const categoryIcons = {
-                    "旅行": "✈️",
-                    "グルメ": "🍽️",
-                    "買い物": "🛍️",
-                    "体験": "🎟️",
-                    "学習": "📚"
+                    "旅行": {symbol: "✈", style: "travel"},
+                    "グルメ": {symbol: "🍴", style: "gourmet"},
+                    "買い物": {symbol: "🛍️", style: "shopping"},
+                    "体験": {symbol: "★", style: "experience"},
+                    "学習": {symbol: "📖", style: "learning"}
                 };
                 const categoryIcon = document.createElement("span");
+                const icon = categoryIcons[todo.category] || {symbol: "●", style: "other"};
+                categoryIcon.className = `calendar-category-icon category-icon-${icon.style}`;
                 categoryIcon.setAttribute("aria-hidden", "true");
-                categoryIcon.textContent = `${categoryIcons[todo.category] || "📌"} `;
+                categoryIcon.textContent = icon.symbol;
                 editLink.setAttribute("aria-label", `${todo.category}：${todo.title}`);
                 const dueDate = new Date(`${todo.dueDate}T00:00:00`);
                 if (dueDate < today && !todo.completed) {
