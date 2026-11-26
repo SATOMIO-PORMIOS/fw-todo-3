@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import java.math.BigInteger;
 import org.springframework.validation.BindingResult;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -37,6 +38,14 @@ public class HomeController {
         model.addAttribute("keyword", keyword);
         model.addAttribute("category", category);
         model.addAttribute("order", order);
+        model.addAttribute("budgetTotal", todos.stream()
+                .map(todo -> todo.getBudgetAmount() == null ? 0L : todo.getBudgetAmount())
+                .map(BigInteger::valueOf)
+                .reduce(BigInteger.ZERO, BigInteger::add));
+        model.addAttribute("actualTotal", todos.stream()
+                .map(todo -> todo.getActualAmount() == null ? 0L : todo.getActualAmount())
+                .map(BigInteger::valueOf)
+                .reduce(BigInteger.ZERO, BigInteger::add));
         return "todos";
     }
 

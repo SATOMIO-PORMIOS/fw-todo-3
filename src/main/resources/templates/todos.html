@@ -32,6 +32,10 @@
             <a class="link" th:href="@{/todos(keyword=${keyword}, category=${category}, order='desc')}">期限が遠い順</a>
         </div>
         <p><a class="btn" th:href="@{/todos/new}">新規登録</a> <a class="btn sub" th:href="@{/calendar}">カレンダーで見る</a></p>
+        <section class="amount-totals" aria-label="表示中の金額合計">
+            <p>表示中の予算額合計：<strong th:text="|${#numbers.formatInteger(budgetTotal, 1, 'COMMA')}円|">0円</strong></p>
+            <p>表示中の実際の金額合計：<strong th:text="|${#numbers.formatInteger(actualTotal, 1, 'COMMA')}円|">0円</strong></p>
+        </section>
         <p th:if="${#lists.isEmpty(todos)}">まだ1件も登録されていません</p>
         <table class="todo-table" th:unless="${#lists.isEmpty(todos)}">
             <thead>
@@ -40,6 +44,8 @@
                     <th>ジャンル</th>
                     <th>優先度</th>
                     <th>期限</th>
+                    <th>予算額</th>
+                    <th>実際の金額</th>
                     <th>状態</th>
                     <th>操作</th>
                 </tr>
@@ -51,6 +57,8 @@
                     <td th:text="${todo.category}">ジャンル</td>
                     <td th:classappend="${todo.priority == 1} ? ' priority-high' : ''" th:text="${todo.priority == 1 ? '高' : (todo.priority == 2 ? '中' : '低')}">優先度</td>
                     <td th:text="${todo.dueDate}">期限</td>
+                    <td th:text="${todo.budgetAmount == null ? '—' : #numbers.formatInteger(todo.budgetAmount, 1, 'COMMA') + '円'}">予算額</td>
+                    <td th:text="${todo.actualAmount == null ? '—' : #numbers.formatInteger(todo.actualAmount, 1, 'COMMA') + '円'}">実際の金額</td>
                     <td th:text="${todo.completed ? '完了' : '未完了'}">状態</td>
                     <td><a class="link" th:href="@{/todos/{id}(id=${todo.id})}">詳細</a> <a class="link" th:href="@{/todos/{id}/edit(id=${todo.id})}">編集</a> <a class="link" th:href="@{/todos/{id}/delete(id=${todo.id})}">削除</a></td>
                 </tr>
