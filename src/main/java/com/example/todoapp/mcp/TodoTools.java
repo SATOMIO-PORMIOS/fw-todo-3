@@ -50,7 +50,7 @@ public class TodoTools {
     public TodoDto addTodo(
             @McpToolParam(description = "やることのタイトル", required = true) String title,
             @McpToolParam(description = "詳細", required = false) String detail,
-            @McpToolParam(description = "ジャンル（デザイン・マーケティング・プログラミング・資格・就職活動）", required = true) String category,
+            @McpToolParam(description = "ジャンル（旅行・グルメ・買い物・体験・学習）", required = true) String category,
             @McpToolParam(description = "優先度", required = true) Integer priority,
             @McpToolParam(description = "期限（yyyy-MM-dd）", required = false) String dueDate) {
         if (!isValidCategory(category)) {
@@ -72,7 +72,7 @@ public class TodoTools {
             @McpToolParam(description = "やることのID", required = true) Long id,
             @McpToolParam(description = "新しいタイトル", required = false) String title,
             @McpToolParam(description = "新しい詳細", required = false) String detail,
-            @McpToolParam(description = "新しいジャンル（デザイン・マーケティング・プログラミング・資格・就職活動）", required = false) String category,
+            @McpToolParam(description = "新しいジャンル（旅行・グルメ・買い物・体験・学習）", required = false) String category,
             @McpToolParam(description = "新しい優先度", required = false) Integer priority,
             @McpToolParam(description = "新しい期限（yyyy-MM-dd）", required = false) String dueDate) {
         Todo todo = todoService.findById(id);
@@ -132,7 +132,7 @@ public class TodoTools {
     }
 
     private boolean isValidCategory(String category) {
-        return Arrays.asList("デザイン", "マーケティング", "プログラミング", "資格", "就職活動")
+        return Arrays.asList("旅行", "グルメ", "買い物", "体験", "学習")
                 .contains(category);
     }
 }

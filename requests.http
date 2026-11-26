@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "title": "新しいロゴ案を作る",
-  "category": "デザイン",
+  "category": "旅行",
   "priority": 2,
   "dueDate": "2026-12-10"
 }
@@ -19,7 +19,7 @@ Content-Type: application/json
 {
   "title": "新しいロゴ案を3つ作る",
   "detail": "配色案も添える",
-  "category": "デザイン",
+  "category": "旅行",
   "priority": 2,
   "dueDate": "2026-12-10",
   "completed": false
@@ -29,7 +29,7 @@ Content-Type: application/json
 DELETE http://localhost:8080/api/todos/13
 
 ### 絞り込み
-GET http://localhost:8080/api/todos?category=就職活動
+GET http://localhost:8080/api/todos?category=旅行
 
 ### 5. 祝日を直接取ってくる
 GET https://holidays-jp.github.io/api/v1/date.json
@@ -46,7 +46,7 @@ Content-Type: application/json
 
 {
   "title": "履歴書の自己PRを見直す",
-  "category": "就職活動",
+  "category": "旅行",
   "priority": 1,
   "dueDate": "2026-12-11"
 }
@@ -57,7 +57,7 @@ Content-Type: application/json
 
 {
   "title": "応募先企業の事業内容を調べる",
-  "category": "就職活動",
+  "category": "旅行",
   "priority": 2,
   "dueDate": "2026-12-11"
 }
@@ -68,7 +68,7 @@ Content-Type: application/json
 
 {
   "title": "面接で聞かれそうな質問に答える練習をする",
-  "category": "就職活動",
+  "category": "旅行",
   "priority": 3,
   "dueDate": "2026-12-11"
 }

@@ -6,7 +6,7 @@ body {
     margin: 0;
     color: #e2e8f0;
     background: #0f172a;
-    font-family: sans-serif;
+    font-family: "Hiragino Maru Gothic ProN", "Yu Gothic UI", "Meiryo", "Noto Sans JP", sans-serif;
     font-size: 16px;
     line-height: 1.6;
 }
@@ -167,23 +167,39 @@ body {
 }
 
 .calendar-table td:first-child {
-    color: #fca5a5;
+    color: #f8fafc;
 }
 
 .calendar-table td:last-child {
-    color: #93c5fd;
+    color: #f8fafc;
+}
+
+.calendar-table a {
+    color: #bfdbfe;
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+.calendar-table a:hover,
+.calendar-table a:focus-visible {
+    color: #ffffff;
 }
 
 .calendar-table td[data-date]:first-child:not([title]) {
-    background: #7f1d1d !important;
+    background: #991b1b !important;
 }
 
 .calendar-table td[data-date]:last-child:not([title]) {
-    background: #1e3a8a !important;
+    background: #1e40af !important;
 }
 
 .calendar-table td[title] {
-    background: #78350f !important;
+    background: #92400e !important;
+}
+
+.calendar-table .overdue-marker {
+    color: #fca5a5;
+    margin-right: 3px;
 }
 
 @media (max-width: 600px) {

@@ -16,13 +16,13 @@
                     <input class="form-input" type="text" name="keyword" th:value="${keyword}">
                 </label>
                 <label>ジャンル
-                    <select class="form-input" name="category">
+                    <select class="form-input" name="category" onchange="this.form.requestSubmit()">
                         <option value="" th:selected="${category == ''}">すべて</option>
-                        <option value="デザイン" th:selected="${category == 'デザイン'}">デザイン</option>
-                        <option value="マーケティング" th:selected="${category == 'マーケティング'}">マーケティング</option>
-                        <option value="プログラミング" th:selected="${category == 'プログラミング'}">プログラミング</option>
-                        <option value="資格" th:selected="${category == '資格'}">資格</option>
-                        <option value="就職活動" th:selected="${category == '就職活動'}">就職活動</option>
+                        <option value="旅行" th:selected="${category == '旅行'}">旅行</option>
+                        <option value="グルメ" th:selected="${category == 'グルメ'}">グルメ</option>
+                        <option value="買い物" th:selected="${category == '買い物'}">買い物</option>
+                        <option value="体験" th:selected="${category == '体験'}">体験</option>
+                        <option value="学習" th:selected="${category == '学習'}">学習</option>
                     </select>
                 </label>
                 <input type="hidden" name="order" th:value="${order}">

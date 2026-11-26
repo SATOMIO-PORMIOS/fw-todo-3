@@ -10,7 +10,7 @@ CREATE TABLE todos (
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     CONSTRAINT chk_todos_category CHECK (category IN (
-        'デザイン', 'マーケティング', 'プログラミング', '資格', '就職活動'
+        '旅行', 'グルメ', '買い物', '体験', '学習'
     )),
     CONSTRAINT chk_todos_priority CHECK (priority IN (1, 2, 3)),
     CONSTRAINT chk_todos_completed CHECK (completed IN (0, 1))

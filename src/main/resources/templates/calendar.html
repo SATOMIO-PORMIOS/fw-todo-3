@@ -63,11 +63,29 @@
                 const todoName = document.createElement("div");
                 const editLink = document.createElement("a");
                 editLink.href = `/todos/${todo.id}/edit`;
-                editLink.textContent = todo.title;
+                const categoryIcons = {
+                    "旅行": "✈️",
+                    "グルメ": "🍽️",
+                    "買い物": "🛍️",
+                    "体験": "🎟️",
+                    "学習": "📚"
+                };
+                const categoryIcon = document.createElement("span");
+                categoryIcon.setAttribute("aria-hidden", "true");
+                categoryIcon.textContent = `${categoryIcons[todo.category] || "📌"} `;
+                editLink.setAttribute("aria-label", `${todo.category}：${todo.title}`);
                 const dueDate = new Date(`${todo.dueDate}T00:00:00`);
                 if (dueDate < today && !todo.completed) {
-                    editLink.style.color = "#b91c1c";
+                    const overdueMarker = document.createElement("span");
+                    overdueMarker.className = "overdue-marker";
+                    overdueMarker.textContent = "●";
+                    overdueMarker.title = "期限超過";
+                    overdueMarker.setAttribute("aria-label", "期限超過");
+                    editLink.setAttribute("aria-label", `期限超過、${todo.category}：${todo.title}`);
+                    editLink.appendChild(overdueMarker);
                 }
+                editLink.appendChild(categoryIcon);
+                editLink.appendChild(document.createTextNode(todo.title));
                 todoName.appendChild(editLink);
                 cell.appendChild(todoName);
             }

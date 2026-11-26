@@ -29,7 +29,7 @@
 
 ## 3. 値の決まり
 
-- `category`は「デザイン」「マーケティング」「プログラミング」「資格」「就職活動」のどれか1つです。
+- `category`は「旅行」「グルメ」「買い物」「体験」「学習」のどれか1つです。
 - `priority`は`1`（高）、`2`（中）、`3`（低）のどれかです。
 - `completed`は`0`（未完了）または`1`（完了）です。
 - `title`と`category`は必須、`detail`と`due_date`は省略できます。登録・編集画面では`priority`も必ず選びます。
@@ -52,7 +52,7 @@ CREATE TABLE todos (
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     CONSTRAINT chk_todos_category CHECK (category IN (
-        'デザイン', 'マーケティング', 'プログラミング', '資格', '就職活動'
+        '旅行', 'グルメ', '買い物', '体験', '学習'
     )),
     CONSTRAINT chk_todos_priority CHECK (priority IN (1, 2, 3)),
     CONSTRAINT chk_todos_completed CHECK (completed IN (0, 1))
